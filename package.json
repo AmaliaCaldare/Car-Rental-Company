@@ -2,8 +2,12 @@
   "name": "car-rental-company",
   "version": "1.0.0",
   "description": "Mandatory assigment two for the Database class.",
-  "main": "app.js",
+  "main": "knexfile.js",
   "scripts": {
+    "cleandb": "knex migrate:rollback && knex migrate:latest && knex seed:run",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:make": "knex migrate:make",
+    "migrate:rollback": "knex migrate:rollback",
     "start": "cross-env PORT=80 node app.js",
     "start-dev": "cross-env PORT=3000 nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,7 +26,9 @@
     "express": "^4.17.1",
     "knex": "^0.95.4",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7"
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
+    "objection": "^2.2.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

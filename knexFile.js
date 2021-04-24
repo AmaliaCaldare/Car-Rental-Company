@@ -1,3 +1,16 @@
-const mySqlCredentials = require("./config/mySqlCredentials");
+const credentials = require("./config/mySqlCredentials");
+const { knexSnakeCaseMappers } = require('objection');
 
-const credentials = require(mySqlCredentials);git
+module.exports = {
+
+  development: {
+    client: 'mysql2',
+    connection: {
+      database : credentials.database,
+      user : credentials.user,
+      password : credentials.password
+    },
+    ...knexSnakeCaseMappers()
+  },
+
+};
