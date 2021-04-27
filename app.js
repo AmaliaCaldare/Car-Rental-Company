@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-app.use(express.json({ extended: false }));
-app.use(express.urlencoded);
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 const {Model} = require('objection');
 const Knex = require('knex');
