@@ -21,6 +21,9 @@ app.use('/api', require('./api/role').router)
 app.use('/api', require('./api/image').router)
 app.use('/api', require('./api/rentalpoint').router)
 app.use('/api', require('./api/vehicle').router)
+app.use('/api', require('./api/vehicleImage').router)
+app.use('/api', require('./api/user').router)
+app.use('/api', require('./api/userRole').router)
 
 
 
