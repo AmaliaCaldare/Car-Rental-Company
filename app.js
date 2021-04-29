@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,7 +27,25 @@ app.use('/api', require('./api/user').router)
 app.use('/api', require('./api/userRole').router)
 app.use('/api', require('./api/review').router)
 
+const fs = require('fs');
+const { sign } = require('crypto');
 
+//to be deleted
+const loginPage = fs.readFileSync('./public/login.html', 'utf8');
+const signupPage = fs.readFileSync('./public/signup.html','utf8')
+app.get('/login',(req,res)=>{
+    res.send(loginPage);
+} )
+
+app.get('/', (req,res)=> {
+    return res.redirect('/login');
+})
+
+const headerPage = fs.readFileSync('./public/header.html', 'utf8');
+const footerPage = fs.readFileSync('./public/footer.html', 'utf8');
+app.get('/signup', (req,res)=> {
+    res.send(headerPage + signupPage + footerPage);
+})
 
 app.listen(port, (error) => {
     if (error) {

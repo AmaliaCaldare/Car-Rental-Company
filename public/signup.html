@@ -1,0 +1,43 @@
+
+<div class="container">
+    <form action = "/signup" method = "POST" name = 'signupform' onsubmit="return validateSignup()">
+        <h2>Sign up</h2>
+        <div class = "form-group">
+            <label for="firstname">First Name</label>
+            <input type="firstname" class="form-control" name="firstaname" placeholder="Enter your first name" required>
+        </div>
+        <div class = "form-group">
+            <label for="lastname">Last Name</label>
+            <input type="lastname" class="form-control" name="lastname" placeholder="Enter your last name" required>
+        </div>
+        <div class = "form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class = "form-group">
+            <label for="phone">Phone Number</label>
+            <input type="phone" class="form-control" name="lastname" placeholder="Enter your last name" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script>
+    function validateSignup() {
+        const password = document.forms.signupform.password.value;
+        if(password.length < 9) {
+            alert("Password must be 8 characters or longer.");
+            return false;
+        }
+        return true;
+  }
+
+const errorMessage = window.location.search;
+if(errorMessage) {
+    alert("User already exists");
+}
+
+</script>
