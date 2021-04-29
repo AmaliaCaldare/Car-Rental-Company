@@ -25,15 +25,15 @@ router.get('/rental/:id', (req, res) => {
     
 
   router.post('/add-rental', (req, res) => {
-    const { start, end, finalPrice, userId, vehicleId } = req.body;
-    if(start && end && finalPrice && userId && vehicleId) {
+    const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
+    if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
       try{
            Rental.query().insert({
-          rental_start: start,
-          rental_end: end,
-          final_price: finalPrice,
-          user_id:userId,
-          vehicle_id:vehicleId
+          rentalStart,
+          rentalEnd,
+          finalPrice,
+          userId,
+          vehicleId
           
         }).then(newItem => {
           return res.redirect('/api/rental');

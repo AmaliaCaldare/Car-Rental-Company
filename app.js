@@ -19,8 +19,7 @@ app.use('/api', require('./api/contactinfo').router)
 app.use('/api', require('./api/vehicletype').router)
 app.use('/api', require('./api/role').router)
 app.use('/api', require('./api/image').router)
-
-
+app.use('/api', require('./api/rentalpoint').router)
 
 
 app.listen(port, (error) => {
