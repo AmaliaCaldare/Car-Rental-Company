@@ -69,7 +69,6 @@ route.post("/signup", async (req,res) => {
                      User.query().insert({
                          email,
                          password: hashedPassword,
-                         roleId: defaultUserRoles[0].id,
                          firstName,
                          lastName,
                          phoneNumber,
