@@ -6,7 +6,7 @@ const router = express.Router()
 const Review = require('../models/Review')
 
 router.get('/review', (req, res) => {
-    review.query()
+    Review.query()
         .then(reviews => {
             res.status(200).send(reviews)
         })
@@ -14,7 +14,7 @@ router.get('/review', (req, res) => {
 
 router.get('/review/:id', (req, res) => {
     let id = parseInt(req.params.id)
-    review.query()
+    Review.query()
         .where('id', id)
         .then(reviews => {
             res.json(reviews)
@@ -25,7 +25,7 @@ router.get('/review/:id', (req, res) => {
     const { description, rating, date, rentalId } = req.body;
     if(description && rating && date && rentalId) {
       try{
-           review.query().insert({
+           Review.query().insert({
             description, rating, date, rentalId
           
         }).then(newItem => {
