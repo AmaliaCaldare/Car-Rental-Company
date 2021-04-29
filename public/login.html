@@ -1,24 +1,29 @@
-
-<div class="container">
-    <form action = "/login" method = "POST" name = 'loginform' onsubmit="return validateLogin()">
-        <h2>Log in</h2>
-        <div class = "form-group">
-            <label for="email">Username</label>
-            <input type="email" class="form-control" name="email" placeholder="Enter email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+<div class="container-fluid h-100 text-dark">
+    <div class="row justify-content-center align-items-center">
+       <h1>Login</h1>
+    </div>
+    <hr/>
+    <div class="row justify-content-center align-items-center h-100">
+       <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+       <form action = "/login" method = "POST" name = 'loginform' onsubmit="return validateLogin()">
+          <div class = "form-group">
+             <label for="email">Email</label>
+             <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+             <label for="password">Password</label>
+             <input type="password" class="form-control" name="password" placeholder="Password" required>
           </div>
           <button type="submit" class="btn btn-primary">Log in</button>
-    </form>
+       </form>
+    
     <div class="signup">
-        <p>No account? </p>
-        <a id="signup" href="/signup" > Sign up</a>
+       <p>No account? </p>
+       <a id="signup" href="/signup" > Sign up</a>
     </div>
 </div>
-
-<script>
+ </div>
+ <script>
     function validateLogin() {
         const password = document.forms.loginform.password.value;
         if(password.length < 8) {
@@ -26,11 +31,11 @@
             return false;
         }
         return true;
-  }
-
+    }
+    
     const errorMessage = window.location.search;
     if(errorMessage) {
       alert("Wrong username or password.");
-}
-
-</script>
+    }
+    
+ </script>

@@ -32,17 +32,19 @@ const { sign } = require('crypto');
 
 //to be deleted
 const loginPage = fs.readFileSync('./public/login.html', 'utf8');
-const signupPage = fs.readFileSync('./public/signup.html','utf8')
+const signupPage = fs.readFileSync('./public/signup.html','utf8');
+const headerPage = fs.readFileSync('./public/header.html', 'utf8');
+const footerPage = fs.readFileSync('./public/footer.html', 'utf8');
+
 app.get('/login',(req,res)=>{
-    res.send(loginPage);
+    res.send(headerPage + loginPage + footerPage);
 } )
 
 app.get('/', (req,res)=> {
     return res.redirect('/login');
 })
 
-const headerPage = fs.readFileSync('./public/header.html', 'utf8');
-const footerPage = fs.readFileSync('./public/footer.html', 'utf8');
+
 app.get('/signup', (req,res)=> {
     res.send(headerPage + signupPage + footerPage);
 })
