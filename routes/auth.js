@@ -93,4 +93,13 @@ route.post("/signup", async (req,res) => {
     }
 });
 
+route.get("/logout", (req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/login');
+    });
+});
+
 module.exports = route;
