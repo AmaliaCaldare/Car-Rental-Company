@@ -24,6 +24,7 @@ app.use('/api', require('./api/vehicle').router)
 app.use('/api', require('./api/vehicleImage').router)
 app.use('/api', require('./api/user').router)
 app.use('/api', require('./api/userRole').router)
+app.use('/api', require('./api/review').router)
 
 
 

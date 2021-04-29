@@ -21,9 +21,6 @@ router.get('/address/:id', (req, res) => {
         })
 })
 
-    // add-rental/123/2020-07-28/2020-07-28/2019/321/333
-    
-
   router.post('/add-address', (req, res) => {
     const { streetName, streetNumber, city, country, postalCode } = req.body;
     if(streetName && streetNumber && city && country && postalCode) {

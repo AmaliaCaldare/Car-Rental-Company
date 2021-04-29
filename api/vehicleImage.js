@@ -21,9 +21,6 @@ router.get('/vehicleImage/:id', (req, res) => {
         })
 })
 
-    // add-rental/123/2020-07-28/2020-07-28/2019/321/333
-    
-
   router.post('/add-vehicleImage', (req, res) => {
     const { imageId, vehicleId } = req.body;
     if(imageId && vehicleId) {
