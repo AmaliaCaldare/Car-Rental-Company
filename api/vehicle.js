@@ -23,7 +23,7 @@ router.get('/vehicle/:id', (req, res) => {
 
   router.post('/add-vehicle', (req, res) => {
     const { brand, model, description, price, numberPlate, vehicleTypeId,rentalPointId } = req.body;
-    if(brand, model, description, price, numberPlate, vehicleTypeId,rentalPointId ) {
+    if(brand && model &&  description &&  price &&  numberPlate &&  vehicleTypeId && rentalPointId ) {
       try{
         Vehicle.query().insert({
             brand, model, description, price, numberPlate, vehicleTypeId,rentalPointId 
