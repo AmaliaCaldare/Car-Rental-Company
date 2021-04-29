@@ -21,9 +21,6 @@ router.get('/rental/:id', (req, res) => {
         })
 })
 
-    // add-rental/123/2020-07-28/2020-07-28/2019/321/333
-    
-
   router.post('/add-rental', (req, res) => {
     const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
     if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
