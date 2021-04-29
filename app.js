@@ -17,6 +17,8 @@ app.use('/api', require('./api/rental').router)
 app.use('/api', require('./api/address').router)
 app.use('/api', require('./api/contactinfo').router)
 app.use('/api', require('./api/vehicletype').router)
+app.use('/api', require('./api/role').router)
+
 
 
 app.listen(port, (error) => {
