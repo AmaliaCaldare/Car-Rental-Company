@@ -21,9 +21,6 @@ router.get('/ContactInfo/:id', (req, res) => {
         })
 })
 
-    // add-rental/123/2020-07-28/2020-07-28/2019/321/333
-    
-
   router.post('/add-contactinfo', (req, res) => {
     const { email, phoneNumber, openingTime, closingTime } = req.body;
     if(email && phoneNumber && openingTime && closingTime) {
