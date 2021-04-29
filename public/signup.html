@@ -1,7 +1,11 @@
-
-<div class="container">
+<div class="container-fluid h-100 text-dark">
+    <div class="row justify-content-center align-items-center">
+      <h1>Sign up</h1>    
+    </div>
+<hr/>
+<div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
     <form action = "/signup" method = "POST" name = 'signupform' onsubmit="return validateSignup()">
-        <h2>Sign up</h2>
         <div class = "form-group">
             <label for="firstname">First Name</label>
             <input type="firstname" class="form-control" name="firstaname" placeholder="Enter your first name" required>
@@ -24,6 +28,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+</div>
 </div>
 <script>
     function validateSignup() {
