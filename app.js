@@ -10,6 +10,16 @@ const knexFile = require('./knexfile.js');
 const knex = Knex(knexFile.development);
 Model.knex(knex);
 
+const session = require('express-session');
+app.use(session({
+    secret: require('./config/mysqlCredentials.js').sessionSecret,
+    resave: false, 
+    saveUninitialized: true,
+}));
+
+const authRoute = require('./routes/auth.js');
+app.use(authRoute)
+
 
 const port = 3000;
 // Endpoints
