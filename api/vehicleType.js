@@ -1,6 +1,7 @@
 
 const express = require('express')
 const { user } = require('../config/mysqlCredentials')
+const { modelPaths } = require('../models/VehicleType')
 const router = express.Router()
 
 const VehicleType = require('../models/VehicleType')
@@ -19,6 +20,15 @@ router.get('/vehicleType/:id', (req, res) => {
         .then(vehicle_type => {
             res.json(vehicle_type)
         })
+})
+router.put('/vehicleType/update/:id', (req, res) => {
+let id = parseInt(req.params.id)
+const {label} = req.body;
+VehicleType.query()
+  .update({label})
+  .where('id',id)
+  .then(u => res.status(!!u?200:404).json({success:!!u}))
+  .catch(e => res.status(500).json(e));
 })
 
   router.post('/vehicletype/add', (req, res) => {
@@ -43,11 +53,12 @@ router.get('/vehicleType/:id', (req, res) => {
     return res.redirect("/api/vehicleType")
 });
 
-
 module.exports = {
     router: router
 }
 
 /* 
-  
+  {
+          "label":"testType"
+}
 */
