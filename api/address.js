@@ -52,3 +52,13 @@ router.get('/address/:id', (req, res) => {
 module.exports = {
     router: router
 }
+/*  
+{
+  "streetName":"Guldbergsgade",
+  "streetNumber":"29N",
+  "city":"Copenhagen",
+  "country":"Denmark",
+  "postalCode":"2200"
+
+}
+ */
