@@ -21,7 +21,7 @@ router.get('/vehicleImage/:id', (req, res) => {
         })
 })
 
-  router.post('/add-vehicleImage', (req, res) => {
+  router.post('/vehicleImage/add', (req, res) => {
     const { imageId, vehicleId } = req.body;
     if(imageId && vehicleId) {
       try{
@@ -39,6 +39,19 @@ router.get('/vehicleImage/:id', (req, res) => {
     }
   })
 
+  router.get("/vehicleImage/delete/:imageId/:vehicleId", async (req,res) => {
+    const image = await VehicleImage.query().delete().where({'imageId': req.params.imageId,'vehicleId':req.params.vehicleId});
+    return res.redirect("/api/vehicleImage")
+});
+
+
 module.exports = {
     router: router
 }
+
+/* 
+{
+         "imageId":"1",
+         "vehicleId":"2"   
+}
+*/

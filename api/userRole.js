@@ -37,8 +37,8 @@ router.get('/userRole/:id', (req, res) => {
     }
   })
 
-  router.get("/userRole/delete/:Id", async (req,res) => {
-    const userRole = await UserRole.query().delete().where({'roleId': req.params.Id});
+  router.get("/userRole/delete/:roleId/:userId", async (req,res) => {
+    const userRole = await UserRole.query().delete().where({'roleId': req.params.roleId,'userId':req.params.userId});
     return res.redirect("/api/userrole")
   });
   
