@@ -21,7 +21,7 @@ router.get('/address/:id', (req, res) => {
         })
 })
 
-  router.post('/add-address', (req, res) => {
+  router.post('/address/add', (req, res) => {
     const { streetName, streetNumber, city, country, postalCode } = req.body;
     if(streetName && streetNumber && city && country && postalCode) {
       try{
@@ -43,6 +43,22 @@ router.get('/address/:id', (req, res) => {
     }
   })
 
+  router.get("/address/delete/:addressId", async (req,res) => {
+    const address = await Address.query().delete().where({'id': req.params.addressId});
+    return res.redirect("/api/address")
+});
+
+
 module.exports = {
     router: router
 }
+/*  
+{
+  "streetName":"Guldbergsgade",
+  "streetNumber":"29N",
+  "city":"Copenhagen",
+  "country":"Denmark",
+  "postalCode":"2200"
+
+}
+ */

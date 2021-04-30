@@ -21,7 +21,7 @@ router.get('/vehicleType/:id', (req, res) => {
         })
 })
 
-  router.post('/add-vehicletype', (req, res) => {
+  router.post('/vehicletype/add', (req, res) => {
     const { label } = req.body;
     if(label) {
       try{
@@ -38,6 +38,16 @@ router.get('/vehicleType/:id', (req, res) => {
     }
   })
 
+  router.get("/vehicleType/delete/:Id", async (req,res) => {
+    const vehicleType = await VehicleType.query().delete().where({'id': req.params.Id});
+    return res.redirect("/api/vehicleType")
+});
+
+
 module.exports = {
     router: router
 }
+
+/* 
+
+*/

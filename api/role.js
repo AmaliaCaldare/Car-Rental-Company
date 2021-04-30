@@ -21,7 +21,7 @@ router.get('/role/:id', (req, res) => {
         })
 })
 
-  router.post('/add-role', (req, res) => {
+  router.post('/role/add', (req, res) => {
     const { name } = req.body;
     if(name) {
       try{
@@ -38,6 +38,17 @@ router.get('/role/:id', (req, res) => {
     }
   })
 
+  router.get("/role/delete/:Id", async (req,res) => {
+    const role = await Role.query().delete().where({'id': req.params.Id});
+    return res.redirect("/api/role")
+});
+
 module.exports = {
     router: router
 }
+
+/* 
+{
+         "name":"testRole"
+}
+*/

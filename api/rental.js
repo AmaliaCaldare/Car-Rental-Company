@@ -21,7 +21,7 @@ router.get('/rental/:id', (req, res) => {
         })
 })
 
-  router.post('/add-rental', (req, res) => {
+  router.post('/rental/add', (req, res) => {
     const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
     if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
       try{
@@ -43,6 +43,21 @@ router.get('/rental/:id', (req, res) => {
     }
   })
 
+  router.get("/rental/delete/:Id", async (req,res) => {
+    const rental = await Rental.query().delete().where({'id': req.params.Id});
+    return res.redirect("/api/rental")
+});
+
 module.exports = {
     router: router
 }
+
+/* 
+{
+          "rentalStart":"2021-11-02 12:00:00", 
+         "rentalEnd":"2021-11-03 12:00:00", 
+         "finalPrice":"600",
+         "userId":"1", 
+         "vehicleId" :"1"
+}
+*/
