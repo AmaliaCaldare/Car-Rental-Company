@@ -21,7 +21,7 @@ router.get('/ContactInfo/:id', (req, res) => {
         })
 })
 
-  router.post('/add-contactinfo', (req, res) => {
+  router.post('/contactinfo/add', (req, res) => {
     const { email, phoneNumber, openingTime, closingTime } = req.body;
     if(email && phoneNumber && openingTime && closingTime) {
       try{

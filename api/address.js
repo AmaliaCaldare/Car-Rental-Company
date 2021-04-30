@@ -21,7 +21,7 @@ router.get('/address/:id', (req, res) => {
         })
 })
 
-  router.post('/add-address', (req, res) => {
+  router.post('/address/add', (req, res) => {
     const { streetName, streetNumber, city, country, postalCode } = req.body;
     if(streetName && streetNumber && city && country && postalCode) {
       try{
