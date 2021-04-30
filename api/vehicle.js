@@ -38,7 +38,7 @@ router.get('/vehicle/:id', (req, res) => {
     }
   })
 
-  router.get("/vehicle/delete/:Id", async (req,res) => {
+  router.delete("/vehicle/delete/:Id", async (req,res) => {
     const vehicle = await Vehicle.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/vehicle")
   });

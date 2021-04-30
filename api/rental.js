@@ -43,7 +43,7 @@ router.get('/rental/:id', (req, res) => {
     }
   })
 
-  router.get("/rental/delete/:Id", async (req,res) => {
+  router.delete("/rental/delete/:Id", async (req,res) => {
     const rental = await Rental.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/rental")
 });

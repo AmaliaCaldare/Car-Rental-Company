@@ -38,7 +38,7 @@ router.get('/user/:id', (req, res) => {
     }
   })
 
-router.get("/user/delete/:Id", async (req,res) => {
+router.delete("/user/delete/:Id", async (req,res) => {
   const user = await User.query().delete().where({'id': req.params.Id});
   return res.redirect("/api/user")
 });

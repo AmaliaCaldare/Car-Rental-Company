@@ -42,7 +42,7 @@ router.get('/ContactInfo/:id', (req, res) => {
     }
   })
 
-  router.get("/contactinfo/delete/:Id", async (req,res) => {
+  router.delete("/contactinfo/delete/:Id", async (req,res) => {
     const contactInfo = await ContactInfo.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/contactInfo")
 });

@@ -40,7 +40,7 @@ router.get('/rentalpoint/:id', (req, res) => {
     }
   })
 
-  router.get("/rentalpoint/delete/:Id", async (req,res) => {
+  router.delete("/rentalpoint/delete/:Id", async (req,res) => {
     const rentalPoint = await RentalPoint.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/rentalpoint")
 });

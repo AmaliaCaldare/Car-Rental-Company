@@ -38,7 +38,7 @@ router.get('/image/:id', (req, res) => {
     }
   })
 
-  router.get("/image/delete/:Id", async (req,res) => {
+  router.delete("/image/delete/:Id", async (req,res) => {
     const image = await Image.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/image")
 });

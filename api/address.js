@@ -43,7 +43,7 @@ router.get('/address/:id', (req, res) => {
     }
   })
 
-  router.get("/address/delete/:addressId", async (req,res) => {
+  router.delete("/address/delete/:addressId", async (req,res) => {
     const address = await Address.query().delete().where({'id': req.params.addressId});
     return res.redirect("/api/address")
 });

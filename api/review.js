@@ -39,7 +39,7 @@ router.get('/review/:id', (req, res) => {
     }
   })
 
-  router.get("/review/delete/:Id", async (req,res) => {
+  router.delete("/review/delete/:Id", async (req,res) => {
     const review = await Review.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/review")
 });
