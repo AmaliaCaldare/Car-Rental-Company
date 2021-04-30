@@ -21,7 +21,7 @@ router.get('/review/:id', (req, res) => {
         })
 })
 
-  router.post('/add-review', (req, res) => {
+  router.post('/review/add', (req, res) => {
     const { description, rating, date, rentalId } = req.body;
     if(description && rating && date && rentalId) {
       try{
@@ -39,6 +39,20 @@ router.get('/review/:id', (req, res) => {
     }
   })
 
+  router.get("/review/delete/:Id", async (req,res) => {
+    const review = await Review.query().delete().where({'id': req.params.Id});
+    return res.redirect("/api/review")
+});
+
 module.exports = {
     router: router
 }
+
+/* 
+{
+          "description":"This rental was superb!", 
+         "rating":"5", 
+         "date":"2028-04-21 13:00:00",
+         "rentalId":"2"
+}
+ */

@@ -50,5 +50,9 @@ module.exports = {
 }
 
 /*
-
+{
+          "name":"New Office", 
+         "addressId":"1", 
+         "contactInfoId":"1"
+}
 */
