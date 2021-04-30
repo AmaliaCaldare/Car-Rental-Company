@@ -43,6 +43,17 @@ router.get('/vehicle/:id', (req, res) => {
     return res.redirect("/api/vehicle")
   });
   
+  router.get('/vehicles/model', (req, res) => {
+    const { model } = req.body;
+    Vehicle.query().where('model', model)
+    .then((vehicle) => {
+      if(vehicle.length !== 0) {
+        res.json(vehicle); 
+        return;
+      }
+      res.status(404).send({error: 'Vehicle not found'});
+      });
+  });
 
 module.exports = {
     router: router

@@ -4,6 +4,7 @@ const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const Rental = require('../models/Rental')
+const User = require('../models/User')
 
 router.get('/rental', (req, res) => {
     Rental.query()
@@ -47,6 +48,20 @@ router.get('/rental/:id', (req, res) => {
     const rental = await Rental.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/rental")
 });
+  router.get('/rentals/user', (req, res) => {
+    const { email } = req.body;
+
+    User.query().select('id').where('email', email).limit(1)
+      .then((user) => {
+        Rental.query().where('userId', user[0].id).then( (rentals) => {
+          if (rentals.length !== 0) {
+            res.json(rentals);
+            return;
+          }
+          res.status(404).send({error: `Rentals not found for user with email '${email}'`});
+        });
+      });
+  });
 
 module.exports = {
     router: router
