@@ -19,8 +19,24 @@ router.get('/rental/:id', (req, res) => {
         .then(rental => {
             res.json(rental)
         })
-})
-
+})    
+ 
+router.put('/rental/update/:id', async (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+  try{
+    Rental.query()
+          .where('id', id)
+          .update(changes)
+          .then(rental => {
+            res.json(rental)
+        })
+  } catch(error) {
+        console.log(error);
+        return res.send({response: 'Something went wrong with the DB'});
+  }
+});
+ 
   router.post('/rental/add', (req, res) => {
     const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
     if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
@@ -41,7 +57,7 @@ router.get('/rental/:id', (req, res) => {
         return res.send({response: 'Something went wrong with the DB'});
       }
     }
-  })
+  });
 
   router.delete("/rental/delete/:Id", async (req,res) => {
     const rental = await Rental.query().delete().where({'id': req.params.Id});
