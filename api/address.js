@@ -21,7 +21,7 @@ router.get('/address/:id', (req, res) => {
         })
 })
 
-  router.post('/address/add', (req, res) => {
+  router.post('/address', (req, res) => {
     const { streetName, streetNumber, city, country, postalCode } = req.body;
     if(streetName && streetNumber && city && country && postalCode) {
       try{
@@ -43,7 +43,7 @@ router.get('/address/:id', (req, res) => {
     }
   })
 
-  router.delete("/address/delete/:addressId", async (req,res) => {
+  router.delete("/address/:addressId", async (req,res) => {
     const address = await Address.query().delete().where({'id': req.params.addressId});
     return res.redirect("/api/address")
 });

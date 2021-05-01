@@ -21,7 +21,7 @@ router.get('/role/:id', (req, res) => {
         })
 })
 
-  router.post('/role/add', (req, res) => {
+  router.post('/role', (req, res) => {
     const { name } = req.body;
     if(name) {
       try{
@@ -38,7 +38,7 @@ router.get('/role/:id', (req, res) => {
     }
   })
 
-  router.delete("/role/delete/:Id", async (req,res) => {
+  router.delete("/role/:Id", async (req,res) => {
     const role = await Role.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/role")
 });

@@ -22,7 +22,7 @@ router.get('/rental/:id', (req, res) => {
         })
 })    
  
-router.put('/rental/update/:id', async (req, res) => {
+router.put('/rental/:id', async (req, res) => {
   const {id} = req.params;
   const changes = req.body;
   try{
@@ -38,7 +38,7 @@ router.put('/rental/update/:id', async (req, res) => {
   }
 });
  
-  router.post('/rental/add', (req, res) => {
+  router.post('/rental', (req, res) => {
     const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
     if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
       try{
@@ -60,7 +60,7 @@ router.put('/rental/update/:id', async (req, res) => {
     }
   });
 
-  router.delete("/rental/delete/:Id", async (req,res) => {
+  router.delete("/rental/:Id", async (req,res) => {
     const rental = await Rental.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/rental")
 });

@@ -21,7 +21,7 @@ router.get('/rentalpoint/:id', (req, res) => {
         })
 })
 
-  router.post('/rentalpoint/add', (req, res) => {
+  router.post('/rentalpoint', (req, res) => {
     const { name, addressId, contactInfoId } = req.body;
     if(name, addressId, contactInfoId) {
       try{
@@ -40,7 +40,7 @@ router.get('/rentalpoint/:id', (req, res) => {
     }
   })
 
-  router.delete("/rentalpoint/delete/:Id", async (req,res) => {
+  router.delete("/rentalpoint/:Id", async (req,res) => {
     const rentalPoint = await RentalPoint.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/rentalpoint")
 });

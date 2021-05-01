@@ -25,7 +25,7 @@ router.get('/user/:id', (req, res) => {
         })
 })
 
-  router.post('/user/add', (req, res) => {
+  router.post('/user', (req, res) => {
     const { firstName, lastName, phoneNumber, email, licenceNum, passportNum,password,addressId } = req.body;
     if(firstName && lastName &&  phoneNumber &&  email &&  licenceNum &&  passportNum && password && addressId) {
       try{
@@ -42,7 +42,7 @@ router.get('/user/:id', (req, res) => {
     }
   })
 
-router.delete("/user/delete/:Id", async (req,res) => {
+router.delete("/user/:Id", async (req,res) => {
   const user = await User.query().delete().where({'id': req.params.Id});
   return res.redirect("/api/user")
 });

@@ -21,7 +21,7 @@ router.get('/vehicle/:id', (req, res) => {
         })
 })
 
-  router.post('/vehicle/add', (req, res) => {
+  router.post('/vehicle', (req, res) => {
     const { brand, model, description, price, numberPlate, vehicleTypeId,rentalPointId } = req.body;
     if(brand && model &&  description &&  price &&  numberPlate &&  vehicleTypeId && rentalPointId ) {
       try{
@@ -38,7 +38,7 @@ router.get('/vehicle/:id', (req, res) => {
     }
   })
 
-  router.delete("/vehicle/delete/:Id", async (req,res) => {
+  router.delete("/vehicle/:Id", async (req,res) => {
     const vehicle = await Vehicle.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/vehicle")
   });

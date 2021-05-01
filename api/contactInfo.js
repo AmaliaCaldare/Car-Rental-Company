@@ -21,7 +21,7 @@ router.get('/ContactInfo/:id', (req, res) => {
         })
 })
 
-  router.post('/contactinfo/add', (req, res) => {
+  router.post('/contactinfo', (req, res) => {
     const { email, phoneNumber, openingTime, closingTime } = req.body;
     if(email && phoneNumber && openingTime && closingTime) {
       try{
@@ -42,7 +42,7 @@ router.get('/ContactInfo/:id', (req, res) => {
     }
   })
 
-  router.delete("/contactinfo/delete/:Id", async (req,res) => {
+  router.delete("/contactinfo/:Id", async (req,res) => {
     const contactInfo = await ContactInfo.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/contactInfo")
 });

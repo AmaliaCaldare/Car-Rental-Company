@@ -21,7 +21,7 @@ router.get('/vehicleType/:id', (req, res) => {
             res.json(vehicle_type)
         })
 })
-router.put('/vehicleType/update/:id', (req, res) => {
+router.put('/vehicleType/:id', (req, res) => {
 let id = parseInt(req.params.id)
 const {label} = req.body;
 VehicleType.query()
@@ -31,7 +31,7 @@ VehicleType.query()
   .catch(e => res.status(500).json(e));
 })
 
-  router.post('/vehicletype/add', (req, res) => {
+  router.post('/vehicletype', (req, res) => {
     const { label } = req.body;
     if(label) {
       try{
@@ -48,7 +48,7 @@ VehicleType.query()
     }
   })
 
-  router.delete("/vehicleType/delete/:Id", async (req,res) => {
+  router.delete("/vehicleType/:Id", async (req,res) => {
     const vehicleType = await VehicleType.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/vehicleType")
 });
