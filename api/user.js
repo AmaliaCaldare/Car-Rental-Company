@@ -58,6 +58,22 @@ router.get('/users/name', (req, res) => {
          res.status(404).send({error: 'User not found'}) })
  });
 
+ router.put('/user/:id', async (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+  try{
+    User.query()
+          .where('id', id)
+          .update(changes)
+          .then(user => {
+            res.json(user)
+        })
+  } catch(error) {
+        console.log(error);
+        return res.send({response: 'Something went wrong with the DB'});
+  }
+});
+
  router.get('/userRoles', async (req, res) => {
   const { email } = req.body;
 
