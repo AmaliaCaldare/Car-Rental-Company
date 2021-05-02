@@ -2,7 +2,6 @@
 const express = require('express')
 const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
-const _ = require('lodash');
 
 const User = require('../models/User')
 const UserRole = require('../models/UserRole')
@@ -50,11 +49,11 @@ router.delete("/user/:Id", async (req,res) => {
 router.get('/users/name', (req, res) => {
     const { firstName, lastName } = req.body;
     User.query().where('firstName', firstName).andWhere('lastName', lastName)
-      .then( (user) => { 
-        if(user.length !== 0) { 
+      .then( (user) => {
+        if(user.length !== 0) {
           res.json(user);
           return;
-         } 
+         }
          res.status(404).send({error: 'User not found'}) })
  });
 
@@ -80,7 +79,7 @@ router.get('/users/name', (req, res) => {
   const user = await User.query().select('id').where('email', email).limit(1);
 
   if (user.length === 0) {
-    res.status(404).send({errror: `User with email '${email}' not found`});
+    res.status(404).send({error: `User with email '${email}' not found`});
     return;
   };
 
@@ -99,20 +98,20 @@ router.get('/users/name', (req, res) => {
     return;
   }
 
-  res.status(404).send({errror: `Roles not found for user with email '${email}' `});
- 
+  res.status(404).send({error: `Roles not found for user with email '${email}' `});
+
  });
 
 module.exports = {
   router: router
 }
 
-/* 
+/*
 {
-         "firstName":"Mike", 
-         "lastName":"Wazowski", 
+         "firstName":"Mike",
+         "lastName":"Wazowski",
          "phoneNumber":"+359886552535",
-         "email":"mike@gmail.com", 
+         "email":"mike@gmail.com",
          "licenceNum" :"1123321",
          "passportNum":"3332112",
          "password":"IamCoolMikeWazowski",
