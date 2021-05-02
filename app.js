@@ -18,9 +18,6 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-const authRoute = require('./routes/auth.js');
-app.use(authRoute)
-
 
 const port = 3000;
 // Endpoints
@@ -36,6 +33,7 @@ app.use('/api', require('./api/vehicleImage').router)
 app.use('/api', require('./api/user').router)
 app.use('/api', require('./api/userRole').router)
 app.use('/api', require('./api/review').router)
+app.use('/api', require('./api/auth.js').router)
 
 const fs = require('fs');
 const { sign } = require('crypto');

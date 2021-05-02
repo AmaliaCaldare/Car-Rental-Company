@@ -6,9 +6,9 @@ const UserRole = require('../models/UserRole');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 
-const route = require('express').Router()
+const router = require('express').Router()
 
-route.post("/login", async (req,res) => {
+router.post("/login", async (req,res) => {
 
     const { email, password } = req.body;
 
@@ -47,7 +47,7 @@ route.post("/login", async (req,res) => {
 
 });
 
-route.post("/signup", async (req,res) => {
+router.post("/signup", async (req,res) => {
 
     const { email, password, passwordRepeat, firstName, lastName, phoneNumber } = req.body;
     const isPasswordTheSame = password === passwordRepeat;
@@ -101,7 +101,7 @@ route.post("/signup", async (req,res) => {
     }
 });
 
-route.get("/logout", (req,res) => {
+router.get("/logout", (req,res) => {
     req.session.destroy((err) => {
         if(err) {
             return console.log(err);
@@ -110,4 +110,6 @@ route.get("/logout", (req,res) => {
     });
 });
 
-module.exports = route;
+module.exports = {
+    router: router
+}
