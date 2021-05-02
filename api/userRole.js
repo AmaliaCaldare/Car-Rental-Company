@@ -10,11 +10,11 @@ router.get('/userRole', (req, res) => {
             res.status(200).send(userroles)
         })
 })
-
+//get the roles for a specific user by user id
 router.get('/userRole/:id', (req, res) => {
     let id = parseInt(req.params.id)
     UserRole.query()
-        .where('id', id)
+        .where('userId', id)
         .then(userroles => {
             res.json(userroles)
         })
