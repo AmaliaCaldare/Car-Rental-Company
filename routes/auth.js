@@ -15,9 +15,6 @@ route.post("/login", async (req,res) => {
     const adminRoleId = await Role.query().select('id').where({name: 'ADMIN'})
     const employeeRoleId = await Role.query().select('id').where({name: 'EMPLOYEE'})
 
-    const adminRole = await UserRole.query().select().where({roleId: adminRoleId});
-    const employeeRole = await UserRole.query().select().where({roleId: employeeRoleId});
-
     if(email && password){
             try{
                 const user = await User.query().select().where({'email': email}).limit(1);
@@ -28,6 +25,9 @@ route.post("/login", async (req,res) => {
                                 req.session.user = user;
                                 if(userRole[0].roleId == adminRoleId){
                                     req.session.isAdmin = true;
+                                }
+                                if(userRole[0].roleId == employeeRoleId){
+                                    req.session.isEmployee = true;
                                 }
                                 res.status(200).send({message: "Successfully logged in"});
                             }
@@ -91,6 +91,15 @@ route.post("/signup", async (req,res) => {
     } else {
         res.status(422).send({error: "Missing fields: username, password, passwordRepeat"});
     }
+});
+
+route.get("/logout", (req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/login');
+    });
 });
 
 module.exports = route;
