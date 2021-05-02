@@ -38,6 +38,22 @@ router.get('/vehicle/:id', (req, res) => {
     }
   })
 
+  router.put('/vehicle/:id', async (req, res) => {
+    const {id} = req.params;
+    const changes = req.body;
+    try{
+      Vehicle.query()
+            .where('id', id)
+            .update(changes)
+            .then(vehicle => {
+              res.json(vehicle)
+          })
+    } catch(error) {
+          console.log(error);
+          return res.send({response: 'Something went wrong with the DB'});
+    }
+  });
+
   router.delete("/vehicle/:Id", async (req,res) => {
     const vehicle = await Vehicle.query().delete().where({'id': req.params.Id});
     return res.redirect("/api/vehicle")
