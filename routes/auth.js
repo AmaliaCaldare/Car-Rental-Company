@@ -26,6 +26,9 @@ route.post("/login", async (req,res) => {
                                 if(userRole[0].roleId == adminRoleId){
                                     req.session.isAdmin = true;
                                 }
+                                if(userRole[0].roleId == employeeRoleId){
+                                    req.session.isEmployee = true;
+                                }
                                 res.status(200).send({message: "Successfully logged in"});
                             }
                             else {
@@ -96,6 +99,15 @@ route.post("/signup", async (req,res) => {
     } else {
         res.status(422).send({error: "Missing fields: username, password, passwordRepeat"});
     }
+});
+
+route.get("/logout", (req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/login');
+    });
 });
 
 module.exports = route;
