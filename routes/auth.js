@@ -9,14 +9,11 @@ const saltRounds = 12;
 const route = require('express').Router()
 
 route.post("/login", async (req,res) => {
-  
+
     const { email, password } = req.body;
-  
+
     const adminRoleId = await Role.query().select('id').where({name: 'ADMIN'})
     const employeeRoleId = await Role.query().select('id').where({name: 'EMPLOYEE'})
-
-    const adminRole = await UserRole.query().select().where({roleId: adminRoleId});
-    const employeeRole = await UserRole.query().select().where({roleId: employeeRoleId});
 
     if(email && password){
             try{
@@ -44,11 +41,11 @@ route.post("/login", async (req,res) => {
     } else {
         res.status(422).send({error: "Missing fields: username, password"});
     }
-        
+
 });
 
 route.post("/signup", async (req,res) => {
-   
+
     const { email, password, passwordRepeat, firstName, lastName, phoneNumber } = req.body;
     const isPasswordTheSame = password === passwordRepeat;
 
@@ -59,27 +56,35 @@ route.post("/signup", async (req,res) => {
             try {
                  const emailFound = await User.query().select().where({'email': email}).limit(1);
                  if(emailFound.length > 0){
-                     res.status(409).send({error: "Username already exists"});
-                     
+                     res.status(409).send({error: `User with email '${email}' $already exists` });
+
                  } else {
                      const defaultUserRoles = await Role.query().select().where({name: 'CUSTOMER'});
                      const hashedPassword = await bcrypt.hash(password, saltRounds);
-                     User.query().insert({
-                         email,
-                         password: hashedPassword,
-                         firstName,
-                         lastName,
-                         phoneNumber,
-                         licenceNum: 0,
-                         passportNum: 0,
-                         addressId: 1
-                     }).then(async (user) => {
-                        const userRoleId = await UserRole.query().insert({
-                            roleId: defaultUserRoles[0].id,
-                            userId: user.id
-                        });
-                     });
-                   res.status(200).send({message: "User has been created successfully"});
+
+                     try {
+                       const userRole = await User.transaction(async (trx) => {
+                           const user = await User.query(trx).insert({
+                               email, password: hashedPassword, firstName, lastName,
+                               phoneNumber, licenceNum: 0, passportNum: 0, addressId: 1
+                           });
+
+                           const userRole = await user
+                               .$relatedQuery('userRoles', trx)
+                               .insert({
+                                 roleId: defaultUserRoles[0].id
+                           });
+
+                           return userRole;
+                       })
+
+                         res.status(200).send({message: "User has been created successfully"});
+
+                     } catch(err) {
+                         console.log("Transaction failed, rollback");
+
+                         res.status(500).send({error: "Could not create user"});
+                     }
                  }
             } catch (error){
                 console.log(error);
