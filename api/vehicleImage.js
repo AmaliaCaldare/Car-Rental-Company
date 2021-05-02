@@ -12,10 +12,11 @@ router.get('/vehicleImage', (req, res) => {
         })
 })
 
+//get images by vehicle id
 router.get('/vehicleImage/:id', (req, res) => {
     let id = parseInt(req.params.id)
     VehicleImage.query()
-        .where('id', id)
+        .where('vehicleId', id)
         .then(vehicleimages => {
             res.json(vehicleimages)
         })
