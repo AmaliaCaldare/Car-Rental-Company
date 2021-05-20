@@ -1,6 +1,4 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const Image = require('../models/Image')
@@ -17,7 +15,7 @@ router.get('/image/:id', (req, res) => {
     Image.query()
         .where('id', id)
         .then(images => {
-            res.json(images)
+            res.status(200).send(images[0]);
         })
 })
 
@@ -28,19 +26,21 @@ router.get('/image/:id', (req, res) => {
         Image.query().insert({
           source
         }).then(newItem => {
-          return res.redirect('/api/image');
+          return res.status(200).send(newItem);
         });
       }
       catch(error) {
-          console.log(error);
-        return res.send({response: 'Something went wrong with the DB'});
+        res.status(500).send({response: 'Something went wrong with the DB'});
       }
     }
   })
 
-  router.delete("/image/:Id", async (req,res) => {
-    const image = await Image.query().delete().where({'id': req.params.Id});
-    return res.redirect("/api/image")
+router.delete("/image/:id", async (req,res) => {
+    const { id } = req.params;
+
+    await Image.query().delete().where({'id': id});
+
+    res.status(200).send({message: `Image with id ${id} was successfully deleted`})
 });
 
 module.exports = {

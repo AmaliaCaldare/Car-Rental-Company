@@ -1,14 +1,12 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const RentalPoint= require('../models/RentalPoint')
 
 router.get('/rentalpoint', (req, res) => {
     RentalPoint.query()
-        .then(rentalpoints => {
-            res.status(200).send(rentalpoints)
+        .then(rentalPoints => {
+            res.status(200).send(rentalPoints)
         })
 })
 
@@ -16,8 +14,8 @@ router.get('/rentalpoint/:id', (req, res) => {
     let id = parseInt(req.params.id)
     RentalPoint.query()
         .where('id', id)
-        .then(rentalpoints => {
-            res.json(rentalpoints)
+        .then(rentalPoints => {
+            res.status(200).send(rentalPoints[0]);
         })
 })
 
@@ -30,19 +28,22 @@ router.get('/rentalpoint/:id', (req, res) => {
             addressId,
             contactInfoId
         }).then(newItem => {
-          return res.redirect('/api/rentalpoint');
+          return res.status(200).send(newItem);
         });
       }
       catch(error) {
           console.log(error);
-        return res.send({response: 'Something went wrong with the DB'});
+        return res.status(500).send({error: 'Something went wrong with the DB'});
       }
     }
   })
 
-  router.delete("/rentalpoint/:Id", async (req,res) => {
-    const rentalPoint = await RentalPoint.query().delete().where({'id': req.params.Id});
-    return res.redirect("/api/rentalpoint")
+router.delete("/rentalpoint/:id", async (req,res) => {
+    const { id } = req.params;
+
+    await RentalPoint.query().delete().where({'id': id});
+
+    return res.status(200).send({message:`Contact info with id ${id} was successfully deleted`});
 });
 
 module.exports = {
@@ -51,8 +52,8 @@ module.exports = {
 
 /*
 {
-          "name":"New Office", 
-         "addressId":"1", 
+          "name":"New Office",
+         "addressId":"1",
          "contactInfoId":"1"
 }
 */

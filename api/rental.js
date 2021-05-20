@@ -1,6 +1,4 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const Rental = require('../models/Rental')
@@ -9,7 +7,7 @@ const User = require('../models/User')
 router.get('/rental', (req, res) => {
     Rental.query()
         .then(rentals => {
-            res.json(rentals)
+            res.status(200).send(rentals);
         })
 })
 
@@ -18,10 +16,10 @@ router.get('/rental/:id', (req, res) => {
     Rental.query()
         .where('id', id)
         .then(rental => {
-            res.json(rental)
+            res.status(200).send(rental[0]);
         })
-})    
- 
+})
+
 router.put('/rental/:id', async (req, res) => {
   const {id} = req.params;
   const changes = req.body;
@@ -30,14 +28,14 @@ router.put('/rental/:id', async (req, res) => {
           .where('id', id)
           .update(changes)
           .then(rental => {
-            res.json(rental)
+            res.status(200).send(rental);
         })
   } catch(error) {
         console.log(error);
         return res.send({response: 'Something went wrong with the DB'});
   }
 });
- 
+
   router.post('/rental', (req, res) => {
     const { rentalStart, rentalEnd, finalPrice, userId, vehicleId } = req.body;
     if(rentalStart && rentalEnd && finalPrice && userId && vehicleId) {
@@ -48,22 +46,25 @@ router.put('/rental/:id', async (req, res) => {
           finalPrice,
           userId,
           vehicleId
-          
+
         }).then(newItem => {
-          return res.redirect('/api/rental');
+          return res.status(200).send(newItem);
         });
       }
       catch(error) {
-          console.log(error);
-        return res.send({response: 'Something went wrong with the DB'});
+        return res.status(500).send({response: 'Something went wrong with the DB'});
       }
     }
   });
 
-  router.delete("/rental/:Id", async (req,res) => {
-    const rental = await Rental.query().delete().where({'id': req.params.Id});
-    return res.redirect("/api/rental")
+  router.delete("/rental/:id", async (req,res) => {
+      const {id} = req.params;
+
+      await Rental.query().delete().where({ 'id': id });
+
+      res.status(200).send({error: `Rental with id ${id} was successfully deleted`});
 });
+
   router.get('/rentals/user', (req, res) => {
     const { email } = req.body;
 
@@ -83,12 +84,12 @@ module.exports = {
     router: router
 }
 
-/* 
+/*
 {
-          "rentalStart":"2021-11-02 12:00:00", 
-         "rentalEnd":"2021-11-03 12:00:00", 
+          "rentalStart":"2021-11-02 12:00:00",
+         "rentalEnd":"2021-11-03 12:00:00",
          "finalPrice":"600",
-         "userId":"1", 
+         "userId":"1",
          "vehicleId" :"1"
 }
 */

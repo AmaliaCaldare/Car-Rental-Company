@@ -1,6 +1,4 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const Review = require('../models/Review')
@@ -27,7 +25,7 @@ router.get('/review/:id', (req, res) => {
       try{
            Review.query().insert({
             description, rating, date, rentalId
-          
+
         }).then(newItem => {
           return res.redirect('/api/review');
         });
@@ -48,10 +46,10 @@ module.exports = {
     router: router
 }
 
-/* 
+/*
 {
-          "description":"This rental was superb!", 
-         "rating":"5", 
+          "description":"This rental was superb!",
+         "rating":"5",
          "date":"2028-04-21 13:00:00",
          "rentalId":"2"
 }
