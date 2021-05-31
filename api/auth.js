@@ -16,31 +16,32 @@ router.post("/login", async (req,res) => {
     const employeeRoleId = await Role.query().select('id').where({name: 'EMPLOYEE'})
 
     if(email && password){
-            try{
-                const user = await User.query().select().where({'email': email}).limit(1);
-                    if(user.length>0){
-                        bcrypt.compare(password, user[0].password).then(async (isMatch) => {
-                            if(isMatch){
-                                const userRole = await UserRole.query().select().where({userId: user[0].id}).limit(1)
-                                req.session.user = user;
-                                if(userRole[0].roleId == adminRoleId){
-                                    req.session.isAdmin = true;
-                                }
-                                if(userRole[0].roleId == employeeRoleId){
-                                    req.session.isEmployee = true;
-                                }
-                                res.status(200).send({message: "Successfully logged in"});
-                            }
-                            else {
-                                res.status(422).send({error: "Wrong username or password"});
-                            }
-                        });
-                    } else {
+        try{
+            const user = await User.query().select().where({'email': email}).limit(1);
+            if(user.length>0){
+                bcrypt.compare(password, user[0].password).then(async (isMatch) => {
+                    if(isMatch){
+                        const userRole = await UserRole.query().select().where({userId: user[0].id}).limit(1)
+                        req.session.user = user;
+                        req.session.isLoggedIn = true;
+                        if(userRole[0].roleId == adminRoleId[0].id){
+                            req.session.isAdmin = true;
+                        }
+                        if(userRole[0].roleId == employeeRoleId[0].id){
+                            req.session.isEmployee = true;
+                        }
+                        res.status(200).send({message: "Successfully logged in"});
+                    }
+                    else {
                         res.status(422).send({error: "Wrong username or password"});
                     }
-            } catch (error){
-                return res.status(500).send({error: "Something went wrong with the db"});
+                });
+            } else {
+                res.status(422).send({error: "Wrong username or password"});
             }
+        } catch (error){
+            return res.status(500).send({error: "Something went wrong with the db"});
+        }
     } else {
         res.status(422).send({error: "Missing fields: username, password"});
     }
@@ -54,41 +55,41 @@ router.post("/signup", async (req,res) => {
 
     if (email && password && isPasswordTheSame){
         if(password.length < 8){
-            res.status(422).send({message: "Password does not fulful the requirements.(Minimum 8 characters)"});
+            res.status(422).send({message: "Password does not fulfil the requirements.(Minimum 8 characters)"});
         } else {
             try {
-                 const emailFound = await User.query().select().where({'email': email}).limit(1);
-                 if(emailFound.length > 0){
-                     res.status(409).send({error: `User with email '${email}' $already exists` });
+                const emailFound = await User.query().select().where({'email': email}).limit(1);
+                if(emailFound.length > 0){
+                    res.status(409).send({error: `User with email '${email}' $already exists` });
 
-                 } else {
-                     const defaultUserRoles = await Role.query().select().where({name: 'CUSTOMER'});
-                     const hashedPassword = await bcrypt.hash(password, saltRounds);
+                } else {
+                    const defaultUserRoles = await Role.query().select().where({name: 'CUSTOMER'});
+                    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-                     try {
-                       const userRole = await User.transaction(async (trx) => {
-                           const user = await User.query(trx).insert({
-                               email, password: hashedPassword, firstName, lastName,
-                               phoneNumber, licenceNum: 0, passportNum: 0, addressId: 1
-                           });
+                    try {
+                        const userRole = await User.transaction(async (trx) => {
+                            const user = await User.query(trx).insert({
+                                email, password: hashedPassword, firstName, lastName,
+                                phoneNumber, licenceNum: 0, passportNum: 0, addressId: 1
+                            });
 
-                           const userRole = await user
-                               .$relatedQuery('userRoles', trx)
-                               .insert({
-                                 roleId: defaultUserRoles[0].id
-                           });
+                            const userRole = await user
+                                .$relatedQuery('userRoles', trx)
+                                .insert({
+                                    roleId: defaultUserRoles[0].id
+                                });
 
-                           return userRole;
-                       })
+                            return userRole;
+                        })
 
-                         res.status(200).send({message: "User has been created successfully"});
+                        res.status(200).send({message: "User has been created successfully"});
 
-                     } catch(err) {
-                         console.log("Transaction failed, rollback");
+                    } catch(err) {
+                        console.log("Transaction failed, rollback");
 
-                         res.status(500).send({error: "Could not create user"});
-                     }
-                 }
+                        res.status(500).send({error: "Could not create user"});
+                    }
+                }
             } catch (error){
                 console.log(error);
                 return res.status(500).send({error: "Something went wrong with the db"});

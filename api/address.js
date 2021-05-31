@@ -1,6 +1,4 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const Address = require('../models/Address')
@@ -13,15 +11,22 @@ router.get('/address', (req, res) => {
 })
 
 router.get('/address/:id', (req, res) => {
-    let id = parseInt(req.params.id)
+    const id = parseInt(req.params.id)
     Address.query()
         .where('id', id)
-        .then(address => {
-            res.json(address)
+        .then(result=> {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find address with id ${id}`
+                })
+            }
         })
 })
 
-  router.post('/address', (req, res) => {
+router.post('/address', (req, res) => {
     const { streetName, streetNumber, city, country, postalCode } = req.body;
     if(streetName && streetNumber && city && country && postalCode) {
       try{
@@ -30,35 +35,34 @@ router.get('/address/:id', (req, res) => {
           streetNumber,
           city,
           country,
-          postalCode
-          
-        }).then(newItem => {
-          return res.redirect('/api/address');
-        });
+          postalCode}).then(newItem => {
+           res.status(200).send(newItem);
+          });
       }
       catch(error) {
-          console.log(error);
-        return res.send({response: 'Something went wrong with the DB'});
+         res.status(500).send({error: 'Something went wrong with the DB'});
       }
     }
   })
 
-  router.delete("/address/:addressId", async (req,res) => {
-    const address = await Address.query().delete().where({'id': req.params.addressId});
-    return res.redirect("/api/address")
+router.delete("/address/:addressId", async (req,res) => {
+    const { addressId } = req.params;
+
+    await Address.query().delete().where({'id': addressId});
+
+    res.status(200).send({message: `Address with id ${addressId} was successfully deleted`});
 });
 
 
 module.exports = {
     router: router
 }
-/*  
+/*
 {
   "streetName":"Guldbergsgade",
   "streetNumber":"29N",
   "city":"Copenhagen",
   "country":"Denmark",
   "postalCode":"2200"
-
 }
  */

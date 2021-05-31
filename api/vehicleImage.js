@@ -1,14 +1,12 @@
-
 const express = require('express')
-const { user } = require('../config/mysqlCredentials')
 const router = express.Router()
 
 const VehicleImage = require('../models/VehicleImage')
 
 router.get('/vehicleImage', (req, res) => {
     VehicleImage.query()
-        .then(vehicleimages => {
-            res.status(200).send(vehicleimages)
+        .then(vehicleImages => {
+            res.status(200).send(vehicleImages)
         })
 })
 
@@ -17,20 +15,27 @@ router.get('/vehicleImage/:id', (req, res) => {
     let id = parseInt(req.params.id)
     VehicleImage.query()
         .where('vehicleId', id)
-        .then(vehicleimages => {
-            res.json(vehicleimages)
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find user with id ${id}`
+                })
+            }
         })
 })
 
-  router.post('/vehicleImage', (req, res) => {
+router.post('/vehicleImage', (req, res) => {
     const { imageId, vehicleId } = req.body;
     if(imageId && vehicleId) {
       try{
            VehicleImage.query().insert({
             imageId, vehicleId
-          
+
         }).then(newItem => {
-          return res.redirect('/api/vehicleImage');
+          return res.status(200).send(newItem);
         });
       }
       catch(error) {
@@ -40,9 +45,12 @@ router.get('/vehicleImage/:id', (req, res) => {
     }
   })
 
-  router.delete("/vehicleImage/:imageId/:vehicleId", async (req,res) => {
-    const image = await VehicleImage.query().delete().where({'imageId': req.params.imageId,'vehicleId':req.params.vehicleId});
-    return res.redirect("/api/vehicleImage")
+router.delete("/vehicleImage/:imageId/:vehicleId", async (req,res) => {
+      const {imageId, vehicleId } = req.params;
+      await VehicleImage.query().delete().where({'imageId': imageId,'vehicleId': vehicleId});
+      return res.status(200).send({
+          message: `Vehicle image has been successfully deleted`
+      })
 });
 
 
@@ -50,9 +58,9 @@ module.exports = {
     router: router
 }
 
-/* 
+/*
 {
          "imageId":"1",
-         "vehicleId":"2"   
+         "vehicleId":"2"
 }
 */
