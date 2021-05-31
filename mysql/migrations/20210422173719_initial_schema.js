@@ -92,6 +92,25 @@ exports.up = function(knex) {
         table.integer('rental_id').unsigned().notNullable();
         table.foreign('rental_id').references('rentals.id');
     })
+    
+    .createTable('rentals_audits',(table) => {
+        table.increments('change_id').primary();
+        table.integer('rental_id').notNullable();
+        table.timestamp('rental_start').notNullable();
+        table.timestamp('rental_end').notNullable();
+        table.float('final_price').notNullable();
+        table.integer('user_id').unsigned().notNullable();
+        table.integer('vehicle_id').unsigned().notNullable();
+        //https://stackoverflow.com/a/6017018
+        table.string('user_firstname').notNullable();
+        table.string('user_lastname').notNullable();
+        table.string('vehicle_brand').notNullable();
+        table.string('number_plate').notNullable();
+        table.timestamp('updated_at').notNullable();
+        table.string('updated_by').notNullable();
+        table.timestamp('valid_from').notNullable();
+        table.timestamp('valid_to').notNullable();
+    })
 
 };
 

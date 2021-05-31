@@ -1,3 +1,4 @@
 node_modules
 mysqlCredentials.js
 mongodbConnection.json
+.idea/
