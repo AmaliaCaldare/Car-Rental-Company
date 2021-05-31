@@ -10,5 +10,5 @@ const connect = () => {
 };
 
 module.exports = {
-    connect
+    connect,
 };
