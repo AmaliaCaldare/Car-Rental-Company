@@ -14,12 +14,19 @@ router.get('/contactInfo/:id', (req, res) => {
     let id = parseInt(req.params.id)
     ContactInfo.query()
         .where('id', id)
-        .then(contact_info => {
-            res.status(200).send(contact_info[0]);
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find contact info with id ${id}`
+                })
+            }
         })
-})
+});
 
-  router.post('/contactInfo', (req, res) => {
+router.post('/contactInfo', (req, res) => {
     const { email, phoneNumber, openingTime, closingTime } = req.body;
     if(email && phoneNumber && openingTime && closingTime) {
       try{

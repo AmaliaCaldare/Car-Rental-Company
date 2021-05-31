@@ -14,8 +14,15 @@ router.get('/image/:id', (req, res) => {
     let id = parseInt(req.params.id)
     Image.query()
         .where('id', id)
-        .then(images => {
-            res.status(200).send(images[0]);
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find image with id ${id}`
+                })
+            }
         })
 })
 

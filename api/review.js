@@ -14,12 +14,19 @@ router.get('/review/:id', (req, res) => {
     let id = parseInt(req.params.id)
     Review.query()
         .where('id', id)
-        .then(reviews => {
-            res.json(reviews)
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find review with id ${id}`
+                })
+            }
         })
 })
 
-  router.post('/review', (req, res) => {
+router.post('/review', (req, res) => {
     const { description, rating, date, rentalId } = req.body;
     if(description && rating && date && rentalId) {
       try{
@@ -27,19 +34,21 @@ router.get('/review/:id', (req, res) => {
             description, rating, date, rentalId
 
         }).then(newItem => {
-          return res.redirect('/api/review');
+          return res.status(200).send(newItem);
         });
       }
       catch(error) {
           console.log(error);
-        return res.send({response: 'Something went wrong with the DB'});
+        return res.status(500).send({error: 'Something went wrong with the DB'});
       }
     }
   })
 
-  router.delete("/review/:Id", async (req,res) => {
-    const review = await Review.query().delete().where({'id': req.params.Id});
-    return res.redirect("/api/review")
+  router.delete("/review/:id", async (req,res) => {
+      const { id } = req.params;
+    await Review.query().delete().where({'id': id});
+
+    return res.status(200).send({message:`Review with id ${id} was successfully deleted`})
 });
 
 module.exports = {

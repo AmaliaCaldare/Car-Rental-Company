@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const path = require('path');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -14,12 +13,10 @@ Model.knex(knex);
 const session = require('express-session');
 app.use(session({
     secret: require('./config/mysqlCredentials.js').sessionSecret,
-    resave: false, 
+    resave: false,
     saveUninitialized: true,
 }));
 
-
-const port = 3000;
 // Endpoints
 app.use('/api', require('./api/rental').router)
 app.use('/api', require('./api/address').router)
@@ -35,8 +32,10 @@ app.use('/api', require('./api/userRole').router)
 app.use('/api', require('./api/review').router)
 app.use('/api', require('./api/auth.js').router)
 
+/*
 const fs = require('fs');
 const { sign } = require('crypto');
+
 
 //to be deleted
 const loginPage = fs.readFileSync('./public/login.html', 'utf8');
@@ -56,10 +55,12 @@ app.get('/', (req,res)=> {
 app.get('/signup', (req,res)=> {
     res.send(headerPage + signupPage + footerPage);
 })
+*/
 
-app.listen(port, (error) => {
+const PORT = 3000;
+app.listen(PORT, (error) => {
     if (error) {
         console.log(error);
     }
-    console.log("Now listening on port", port)
+    console.log("Now listening on port", PORT)
 });

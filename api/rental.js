@@ -15,10 +15,17 @@ router.get('/rental/:id', (req, res) => {
     let id = parseInt(req.params.id)
     Rental.query()
         .where('id', id)
-        .then(rental => {
-            res.status(200).send(rental[0]);
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find rental with id ${id}`
+                })
+            }
         })
-})
+});
 
 router.put('/rental/:id', async (req, res) => {
   const {id} = req.params;

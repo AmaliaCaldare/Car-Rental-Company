@@ -14,8 +14,15 @@ router.get('/address/:id', (req, res) => {
     const id = parseInt(req.params.id)
     Address.query()
         .where('id', id)
-        .then(address => {
-            res.status(200).send(address[0]);
+        .then(result=> {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find address with id ${id}`
+                })
+            }
         })
 })
 
@@ -57,6 +64,5 @@ module.exports = {
   "city":"Copenhagen",
   "country":"Denmark",
   "postalCode":"2200"
-
 }
  */

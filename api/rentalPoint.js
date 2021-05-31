@@ -14,12 +14,19 @@ router.get('/rentalpoint/:id', (req, res) => {
     let id = parseInt(req.params.id)
     RentalPoint.query()
         .where('id', id)
-        .then(rentalPoints => {
-            res.status(200).send(rentalPoints[0]);
+        .then(result => {
+            if (result.length > 0 ) {
+                res.status(200).send(result[0]);
+            }
+            else {
+                res.status(404).send({
+                    error: `Could not find rental point with id ${id}`
+                })
+            }
         })
-})
+});
 
-  router.post('/rentalpoint', (req, res) => {
+router.post('/rentalpoint', (req, res) => {
     const { name, addressId, contactInfoId } = req.body;
     if(name, addressId, contactInfoId) {
       try{
