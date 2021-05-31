@@ -23,10 +23,11 @@ router.post("/login", async (req,res) => {
                     if(isMatch){
                         const userRole = await UserRole.query().select().where({userId: user[0].id}).limit(1)
                         req.session.user = user;
-                        if(userRole[0].roleId == adminRoleId){
+                        req.session.isLoggedIn = true;
+                        if(userRole[0].roleId == adminRoleId[0].id){
                             req.session.isAdmin = true;
                         }
-                        if(userRole[0].roleId == employeeRoleId){
+                        if(userRole[0].roleId == employeeRoleId[0].id){
                             req.session.isEmployee = true;
                         }
                         res.status(200).send({message: "Successfully logged in"});
@@ -54,7 +55,7 @@ router.post("/signup", async (req,res) => {
 
     if (email && password && isPasswordTheSame){
         if(password.length < 8){
-            res.status(422).send({message: "Password does not fulful the requirements.(Minimum 8 characters)"});
+            res.status(422).send({message: "Password does not fulfil the requirements.(Minimum 8 characters)"});
         } else {
             try {
                 const emailFound = await User.query().select().where({'email': email}).limit(1);

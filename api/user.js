@@ -75,12 +75,10 @@ router.put('/user/:id', async (req, res) => {
     const {id} = req.params;
     const changes = req.body;
     try{
-        User.query()
-            .where('id', id)
-            .update(changes)
-            .then(user => {
-                res.json(user)
-            })
+        User.query().where('id', id).update(changes).
+            then(() => {
+            User.query().where('id', id).then(result => { res.status(200).send(result[0])});
+        });
     } catch(error) {
         console.log(error);
         return res.status(500).send({response: 'Something went wrong with the DB'});

@@ -27,12 +27,12 @@ router.get('/vehicleType/:id', (req, res) => {
 })
 
 router.put('/vehicleType/:id', (req, res) => {
-let id = parseInt(req.params.id)
-const {label} = req.body;
-VehicleType.query()
-  .update({label})
-  .where('id',id)
-  .then(u => res.status(!!u?200:404).json({success:!!u}))
+    let id = parseInt(req.params.id)
+    const {label} = req.body;
+    VehicleType.query().update({label}).where('id',id)
+     .then(() => {
+         VehicleType.query().where('id', id).then(result => {res.status(200).send(result[0]);})
+     })
   .catch(e => res.status(500).json(e));
 })
 
