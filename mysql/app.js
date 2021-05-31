@@ -18,6 +18,8 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+
+
 const checkSession = (req, res, next) => {
     if (!req.session.isLoggedIn) {
         res.status(401).send({error: "You're not logged in"});
