@@ -55,7 +55,7 @@ app.use('/test', (req, res) => {
     }
 })
 
-/*
+
 const fs = require('fs');
 const { sign } = require('crypto');
 
@@ -78,7 +78,7 @@ app.get('/', (req,res)=> {
 app.get('/signup', (req,res)=> {
     res.send(headerPage + signupPage + footerPage);
 })
-*/
+
 
 const PORT = 3000;
 app.listen(PORT, (error) => {
