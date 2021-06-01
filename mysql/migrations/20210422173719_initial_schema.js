@@ -101,15 +101,9 @@ exports.up = function(knex) {
         table.float('final_price').notNullable();
         table.integer('user_id').unsigned().notNullable();
         table.integer('vehicle_id').unsigned().notNullable();
-        //https://stackoverflow.com/a/6017018
-        table.string('user_firstname').notNullable();
-        table.string('user_lastname').notNullable();
-        table.string('vehicle_brand').notNullable();
-        table.string('number_plate').notNullable();
-        table.timestamp('updated_at').notNullable();
-        table.string('updated_by').notNullable();
-        table.timestamp('valid_from');
-        table.timestamp('valid_to');
+        table.timestamp('created_at').notNullable();
+        table.string('created_by').notNullable();
+       
     })
 
 };
@@ -128,4 +122,5 @@ exports.down = function(knex) {
     .dropTableIfExists('contact_info')
     .dropTableIfExists('images')
     .dropTableIfExists('vehicle_types')
+    .dropTableIfExists('rental_audits')
 };
