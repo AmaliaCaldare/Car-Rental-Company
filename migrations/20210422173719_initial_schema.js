@@ -108,8 +108,8 @@ exports.up = function(knex) {
         table.string('number_plate').notNullable();
         table.timestamp('updated_at').notNullable();
         table.string('updated_by').notNullable();
-        table.timestamp('valid_from').notNullable();
-        table.timestamp('valid_to').notNullable();
+        table.timestamp('valid_from');
+        table.timestamp('valid_to');
     })
 
 };
