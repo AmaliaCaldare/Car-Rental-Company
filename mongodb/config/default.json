@@ -1,0 +1,3 @@
+{
+    "connection": "mongodb+srv://crcTeam:crcPassword@cluster0.ek8sn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}

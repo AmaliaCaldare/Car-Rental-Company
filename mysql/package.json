@@ -1,7 +1,7 @@
 {
   "name": "car-rental-company",
   "version": "1.0.0",
-  "description": "Mandatory assigment two for the Database class.",
+  "description": "This is the mysql server for the final project.",
   "main": "knexfile.js",
   "scripts": {
     "cleandb": "knex migrate:rollback && knex migrate:latest && knex seed:run",
