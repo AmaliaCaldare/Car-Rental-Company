@@ -37,7 +37,7 @@ router.post("/login", async (req,res) => {
                     }
                 });
             } else {
-                res.status(422).send({error: "Wrong username or password"});
+                res.status(422).send({error: "Could not find user."});
             }
         } catch (error){
             return res.status(500).send({error: "Something went wrong with the db"});
